@@ -15,3 +15,7 @@ def booking_create(request):
 # Booking history page view
 def booking_list(request):
     return render(request, 'booking/booking_history.html')
+
+# User profile page view
+def profile_view(request):
+    return render(request, 'profile.html')
