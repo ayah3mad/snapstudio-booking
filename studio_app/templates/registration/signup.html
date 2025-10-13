@@ -1,8 +1,70 @@
 {% extends 'base.html' %}
 
-{% block title %}Signup{% endblock %}
+{% block title %}Sign Up{% endblock %}
 
 {% block content %}
-<h1>Signup Placeholder</h1>
+<h1>SIGN UP</h1>
 
+<form method="POST" action="{% url 'signup' %}">
+    {% csrf_token %}
+
+    <!-- Username -->
+    <div>
+        <label for="id_username">Username:</label><br>
+        {{ form.username }}
+        {% if form.username.errors %}
+            <p style="color:red;">{{ form.username.errors.0 }}</p>
+        {% endif %}
+    </div>
+
+    <!-- First Name -->
+    <div>
+        <label for="id_first_name">First Name:</label><br>
+        {{ form.first_name }}
+        {% if form.first_name.errors %}
+            <p style="color:red;">{{ form.first_name.errors.0 }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Last Name -->
+    <div>
+        <label for="id_last_name">Last Name:</label><br>
+        {{ form.last_name }}
+        {% if form.last_name.errors %}
+            <p style="color:red;">{{ form.last_name.errors.0 }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Email -->
+    <div>
+        <label for="id_email">Email:</label><br>
+        {{ form.email }}
+        {% if form.email.errors %}
+            <p style="color:red;">{{ form.email.errors.0 }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Password -->
+    <div>
+        <label for="id_password1">Password:</label><br>
+        {{ form.password1 }}
+        {% if form.password1.errors %}
+            <p style="color:red;">{{ form.password1.errors.0 }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Confirm Password -->
+    <div>
+        <label for="id_password2">Confirm Password:</label><br>
+        {{ form.password2 }}
+        {% if form.password2.errors %}
+            <p style="color:red;">{{ form.password2.errors.0 }}</p>
+        {% endif %}
+    </div>
+
+    <button type="submit">Create Account</button>
+</form>
+
+<p>Already have an account? <a href="{% url 'login' %}">Log In</a></p>
 {% endblock %}
+

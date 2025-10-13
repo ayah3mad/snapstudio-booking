@@ -1,14 +1,14 @@
-<!-- templates/base.html -->
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}SnapStudio{% endblock %}</title>
-    <!-- Link CSS here -->
+    
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <!-- Header -->
+    
     <header>
         <h1>SnapStudio</h1>
         <nav>
@@ -19,7 +19,7 @@
         </nav>
     </header>
 
-    <!-- Main content -->
+   
     <main>
         {% block content %}
         <h1>Placeholder Content</h1>
@@ -27,7 +27,7 @@
         {% endblock %}
     </main>
 
-    <!-- Footer -->
+    
     <footer>
         <p>&copy; 2025 SnapStudio. All rights reserved.</p>
     </footer>
