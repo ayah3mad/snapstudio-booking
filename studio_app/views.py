@@ -6,9 +6,11 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .forms import CustomUserCreationForm , UserUpdateForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
+from django.views.generic import ListView
+from django.views import View
 
 
 #FBV
@@ -66,4 +68,28 @@ class ProfileDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_object(self, queryset=None):
         return self.request.user
+    
+# CBV for user profile
+# Admin-only mixin
+class AdminRequiredMixin(UserPassesTestMixin):
+    def test_func(self):
+        return self.request.user.is_superuser  # Only superuser can access
 
+# Users dashboard
+class UserListView(LoginRequiredMixin, AdminRequiredMixin, ListView):
+    model = User
+    template_name = 'admin/user_cards.html'
+    context_object_name = 'users'
+
+    def get_queryset(self):
+        return User.objects.filter(is_superuser=False) # Exclude superusers
+
+class DeleteUserByAdminView(LoginRequiredMixin, AdminRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        user = get_object_or_404(User, pk=pk)
+        if not user.is_superuser:  # Prevent deleting superusers/admins
+            user.delete()
+            messages.success(request, "User deleted successfully.")
+        else:
+            messages.error(request, "You cannot delete an admin user.")
+        return redirect('user_list')
