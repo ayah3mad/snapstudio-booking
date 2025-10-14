@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}All Users{% endblock %}
+
+{% block content %}
+<h1>All Users</h1>
+<div style="display:flex; flex-direction:column; gap:10px;">
+    {% for u in users %}
+        <div style="
+            display:flex; 
+            align-items:center; 
+            justify-content:space-between; 
+            border:1px solid #ccc; 
+            border-radius:8px; 
+            padding:10px 15px;
+            width:100%;
+            max-width:800px;
+            background-color:#f9f9f9;
+        ">
+            <!-- Left part: Image -->
+            <img src="{% static 'images/user_placeholder.png' %}" 
+                 alt="User Image" 
+                 style="width:40px; height:40px; border-radius:50%; object-fit:cover; margin-right:15px;">
+
+            <!-- User info horizontally -->
+            <span style="flex:1; margin-right:15px;">{{ u.username }}</span>
+            <span style="flex:1; margin-right:15px;">{{ u.first_name }} {{ u.last_name }}</span>
+            <span style="flex:2; margin-right:15px;">{{ u.email }}</span>
+
+            <!-- Delete button -->
+            <form method="POST" action="{% url 'delete_account_by_admin' u.id %}" 
+                  onsubmit="return confirm('Are you sure you want to delete this user?');"
+                  style="margin:0;">
+                {% csrf_token %}
+                <button type="submit" style="
+                    padding:5px 12px; 
+                    background-color:#e74c3c; 
+                    color:white; 
+                    border:none; 
+                    border-radius:5px; 
+                    cursor:pointer;
+                ">Delete</button>
+            </form>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
