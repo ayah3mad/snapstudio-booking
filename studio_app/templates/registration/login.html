@@ -1,31 +1,35 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Login{% endblock %}
 
 {% block content %}
-<h1>LOGIN</h1>
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
 
-<form method="POST" action="{% url 'login' %}">
+<form method="POST" action="{% url 'login' %}" class="form-card">
     {% csrf_token %}
+    <h1>Login</h1>
 
-    <div>
-        <label for="id_username">Username:</label><br>
+    <div class="form-field">
+        <label for="id_username">Username:</label>
         {{ form.username }}
         {% if form.username.errors %}
             <p style="color:red;">{{ form.username.errors.0 }}</p>
         {% endif %}
     </div>
 
-    <div>
-        <label for="id_password">Password:</label><br>
+    <div class="form-field">
+        <label for="id_password">Password:</label>
         {{ form.password }}
         {% if form.password.errors %}
             <p style="color:red;">{{ form.password.errors.0 }}</p>
         {% endif %}
     </div>
 
-    <button type="submit">Log In</button>
-</form>
+    <button type="submit" class="form-submit">Log In</button>
 
-<p>Don't have an account? <a href="{% url 'signup' %}">Sign Up</a></p>
+    <p style="text-align:center; margin-top:10px;">
+        Don't have an account? <a href="{% url 'signup' %}">Sign Up</a>
+    </p>
+</form>
 {% endblock %}
