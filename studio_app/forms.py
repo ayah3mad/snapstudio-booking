@@ -1,5 +1,5 @@
 from django import forms
-from .models import Booking, Feedback
+from .models import Booking, Feedback, Service
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -26,3 +26,19 @@ class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'first_name', 'last_name'] 
+
+
+class ServiceForm(forms.ModelForm):
+    description = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                "rows": 2,       # initial height
+                "cols": 40,      # width
+                "style": "resize:vertical;"  # allow resizing vertically only
+            }
+        )
+    )
+
+    class Meta:
+        model = Service
+        fields = ['name', 'price', 'duration', 'image', 'description']
