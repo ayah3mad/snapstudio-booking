@@ -3,10 +3,24 @@ from .models import Booking, Feedback, Service
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
+from django import forms
+from .models import Booking, Service
+
 class BookingForm(forms.ModelForm):
+    service = forms.ModelChoiceField(
+        queryset=Service.objects.all(),
+        label="Service",
+        empty_label="Select a service",
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+
     class Meta:
         model = Booking
-        fields = [ 'date', 'time'] #'service',
+        fields = ['service', 'date', 'time']
+        widgets = {
+            'date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'time': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
+        }
 
 class FeedbackForm(forms.Form):
     model = Feedback
