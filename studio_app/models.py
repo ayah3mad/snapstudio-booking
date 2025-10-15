@@ -27,16 +27,15 @@ class Booking(models.Model):
         ('Completed', 'Completed'),
     ]
 
-    id = models.BigAutoField(primary_key=True)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
-    service_id = models.ForeignKey(Service, on_delete=models.CASCADE, null=False)
-    date = models.DateField(null=False)
-    time = models.TimeField(null=False)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Scheduled')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    service = models.ForeignKey(Service, on_delete=models.CASCADE)
+    date = models.DateField()
+    time = models.TimeField()
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Scheduled')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user.username} - {self.service.name} on {self.date}"
+        return f"{self.user.username} - {self.service.name} on {self.date} at {self.time}"
 
 
 # ------------------------
