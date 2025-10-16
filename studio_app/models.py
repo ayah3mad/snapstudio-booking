@@ -43,11 +43,13 @@ class Booking(models.Model):
 # ------------------------
 class Feedback(models.Model):
     id = models.BigAutoField(primary_key=True)
-    booking_id = models.ForeignKey(Booking, on_delete=models.CASCADE, null=False)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE, null=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
     rating = models.IntegerField(null=True, blank=True)  
     comment = models.TextField(null=True, blank=True)    
     created_at = models.DateTimeField(auto_now_add=True)
+    featured = models.BooleanField(default=False)
+
 
     def __str__(self):
         return f"Feedback by {self.user.username} for {self.booking.service.name}"
