@@ -56,3 +56,18 @@
     font-size: 14px;
     margin-top: 10px;
 }
+.star-rating {
+    display: flex;
+    gap: 10px;
+    font-size: 3rem; /* bigger stars */
+    cursor: pointer;
+}
+
+.star {
+    color: #ccc; /* default grey */
+    transition: color 0.2s;
+}
+
+.star.selected {
+    color: #ff4081; /* clicked */
+}
