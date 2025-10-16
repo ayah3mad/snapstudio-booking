@@ -6,8 +6,8 @@ from django.contrib import messages
 from django.views import View
 from django.views.generic import CreateView, UpdateView, DeleteView, DetailView, ListView
 from django.contrib.auth.models import User
-from .forms import CustomUserCreationForm, UserUpdateForm, ServiceForm, BookingForm
-from .models import Service, Booking
+from .forms import CustomUserCreationForm, UserUpdateForm, ServiceForm, BookingForm, FeedbackForm
+from .models import Service, Booking, Feedback
 from django.contrib.auth.decorators import user_passes_test
 
 
@@ -15,7 +15,9 @@ from django.contrib.auth.decorators import user_passes_test
 # Home & Services
 # ------------------------
 def home_view(request):
-    return render(request, 'home.html')
+    # Get featured feedback with user and service details
+    featured_feedbacks = Feedback.objects.filter(featured=True).select_related('user', 'booking__service')
+    return render(request, 'home.html', {'featured_feedbacks': featured_feedbacks})
 
 def services_view(request):
     services = Service.objects.all()
@@ -159,3 +161,54 @@ def update_booking_status(request, booking_id):
             booking.save()
 
     return redirect('admin_booking_list')
+
+
+# ------------------------
+# Feedback (Admin)
+# ------------------------  
+# Admin
+class AdminFeedbackListView(LoginRequiredMixin, AdminRequiredMixin, ListView):
+    model = Feedback
+    template_name = 'admin/admin_feedback_list.html' 
+    context_object_name = 'feedbacks'
+
+@login_required
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def feature_feedback(request, fb_id):
+    fb = get_object_or_404(Feedback, id=fb_id)
+    fb.featured = True
+    fb.save()
+    messages.success(request, "Feedback has been marked as featured.")
+    return redirect('admin_feedback_list')
+
+@login_required
+@user_passes_test(lambda u: u.is_superuser)
+def delete_feedback(request, fb_id):
+    fb = get_object_or_404(Feedback, id=fb_id)
+    fb.delete()
+    messages.success(request, "Feedback has been deleted.")
+    return redirect('admin_feedback_list')
+
+
+# User 
+class FeedbackCreateView(LoginRequiredMixin, CreateView):
+    model = Feedback
+    form_class = FeedbackForm
+    template_name = 'feedback/feedback_form.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.booking = get_object_or_404(Booking, id=kwargs['booking_id'], user=request.user)
+        if Feedback.objects.filter(booking=self.booking).exists():
+            messages.info(request, "You already submitted feedback for this booking.")
+            return redirect('booking_list')
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.booking = self.booking
+        messages.success(self.request, "Your feedback has been submitted successfully!")  # Success message
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('booking_list')
