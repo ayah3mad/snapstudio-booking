@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+
+<form method="POST" class="form-card">
+    {% csrf_token %}
+
+    <h1>Give Feedback for {{ feedback.service.name }}</h1>
+
+    <!-- Appreciation Text -->
+    <p style="text-align:center; font-size:1rem; color:#555; margin-bottom:20px;">
+        We appreciate your feedback! Tell us about your experience.
+    </p>
+
+    <!-- Star Rating -->
+    <div class="form-field star-rating" style="justify-content:center;">
+        {% for i in "12345" %}
+            <span class="star" data-value="{{ i }}">☆</span>
+        {% endfor %}
+        <input type="hidden" name="rating" id="id_rating">
+    </div>
+
+    <!-- Comment -->
+    <div class="form-field">
+        {{ form.comment}}
+    </div>
+
+    <button type="submit" class="form-submit">Submit Feedback</button>
+</form>
+
+<script src="{% static 'js/feedback.js' %}"></script>
+{% endblock %}
