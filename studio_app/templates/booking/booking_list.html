@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/cards.css' %}">
+
+<h2 style="text-align:center; margin-bottom:15px;">My Bookings</h2>
+
+<!-- Centered Book Service Button -->
+<div style="text-align:center; margin-bottom:25px;">
+    <a href="{% url 'create_booking' %}" style="
+        padding:10px 20px;
+        background-color:#ff4081;
+        color:#fff;
+        border-radius:6px;
+        text-decoration:none;
+        font-weight:500;
+        font-size:1rem;
+        transition:background-color 0.2s;
+        display:inline-block;
+    " 
+    onmouseover="this.style.backgroundColor='#e73370'" 
+    onmouseout="this.style.backgroundColor='#ff4081'">
+        Book Service
+    </a>
+</div>
+
+<!-- Label row above cards -->
+<div class="booking-label-row">
+    <span class="label-service">Service</span>
+    <span class="label-datetime" style="margin-left: 20px;">Date & Time</span>
+    <span class="label-status">Status</span>
+    <span class="label-created">Created At</span>
+</div>
+
+<div style="display:flex; flex-direction:column; gap:10px;">
+    {% for booking in bookings %}
+        {% include 'booking/booking_card.html' %}
+    {% empty %}
+        <p style="text-align:center;">You have no bookings yet. <a href="{% url 'create_booking' %}">Book a service now!</a></p>
+    {% endfor %}
+</div>
+{% endblock %}
