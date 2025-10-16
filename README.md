@@ -89,8 +89,9 @@ Go to http://127.0.0.1:8000 in your browser.
 
 ## ERD & User Stories
 
-![ERd](\images\ERD(dark).png)
-![ERd](.\images\ERD(light).png)
+![ERD Dark](images/ERD-dark.png)
+![ERD Light](images/ERD-light.png)
+
 ### User story:
 
 - Browse available photography & videography services.
