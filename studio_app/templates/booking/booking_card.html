@@ -45,11 +45,11 @@
         </div>
 
         <div class="status">
-            {% if booking.status == 'Completed' %}
-                <button class="feedback-btn">Give Feedback</button>
+            {% if booking.status == 'Completed' and not booking.feedback_set.exists %}
+                <a href="{% url 'create_feedback' booking.id %}" class="feedback-btn">Give Feedback</a>
             {% else %}
-                <span class="{% if booking.status == 'Scheduled' %}○ scheduled{% elif booking.status == 'Cancelled' %}cancelled{% endif %}">
-                    {{ booking.status }}
+                <span class="{% if booking.status == 'Scheduled' %}○ scheduled{% elif booking.status == 'Cancelled' %}cancelled{% elif booking.status == 'Completed' %}completed{% endif %}">
+                     {{ booking.status }}
                 </span>
             {% endif %}
         </div>
