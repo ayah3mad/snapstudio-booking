@@ -4,7 +4,7 @@
 SnapStudio is a Django-based web application for booking photography and videography services. Users can browse available services, book sessions, manage their profile, and submit feedback for completed bookings. Admins can manage services, view user bookings, and moderate feedback.
 
 ## Screenshots / Logo
-![logo](.\images\snapstudio.png)(C:\Users\user\Downloads\snapstudio-logo.png)
+![logo](.\static\images\snapstudio.png)(C:\Users\user\Downloads\snapstudio-logo.png)
 
 
 ## Features
@@ -89,8 +89,8 @@ Go to http://127.0.0.1:8000 in your browser.
 
 ## ERD & User Stories
 
-![ERd](.\images\ERD(dark).png)
-![ERd](.\images\ERD(light).png)
+![ERd](.\staticimages\ERD(dark).png)
+![ERd](.\static\images\ERD(light).png)
 ### User story:
 
 - Browse available photography & videography services.
@@ -129,7 +129,6 @@ Go to http://127.0.0.1:8000 in your browser.
   Admins needed a way to highlight certain feedback dynamically.  
   **Solution:** Added a `featured` boolean field to the `Feedback` model and created a `feature_feedback` view to toggle which feedback appears on the homepage.
 
-## Future Enhancements
 ## Future Enhancements
 
 - **Payment Integration:** Allow users to pay for bookings directly through the platform and confirm bookings after payment.  

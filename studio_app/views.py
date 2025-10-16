@@ -172,7 +172,7 @@ class AdminFeedbackListView(LoginRequiredMixin, AdminRequiredMixin, ListView):
     template_name = 'admin/admin_feedback_list.html' 
     context_object_name = 'feedbacks'
 
-@login_required
+
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
 def feature_feedback(request, fb_id):
