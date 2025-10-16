@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}All Bookings{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/cards.css' %}">
+
+<!-- Page Heading -->
+<h2 style="text-align:center; margin:20px 0; color:#222222;">All Bookings</h2>
+
+<!-- Label row above cards -->
+<div class="booking-label-row">
+    <span class="label-id">ID</span>
+    <span class="label-user">User</span>
+    <span class="label-service">Service</span>
+    <span class="label-datetime">date</span>
+    <span class="label-datetime">Time</span>
+    <span class="label-status">Status</span>
+    <span class="label-created">Created At</span>
+</div>
+
+<!-- Booking Cards List -->
+<div style="display:flex; flex-direction:column; gap:10px; margin-bottom:40px;">
+    {% for booking in bookings %}
+        {% include 'booking/booking_card.html' %}
+    {% empty %}
+        <p style="text-align:center; color:#555;">No bookings yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}
