@@ -1,10 +1,36 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edit Profile{% endblock %}
 
 {% block content %}
-<h1>Edit Profile</h1>
-<form method="POST">
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
+
+<form method="POST" class="form-card">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save Changes</button>
+
+    <h1>Edit Profile</h1>
+
+    <div class="form-field">
+        <label for="{{ form.username.id_for_label }}">Username:</label>
+        {{ form.username }}
+    </div>
+
+    <div class="form-field">
+        <label for="{{ form.first_name.id_for_label }}">First Name:</label>
+        {{ form.first_name }}
+    </div>
+
+    <div class="form-field">
+        <label for="{{ form.last_name.id_for_label }}">Last Name:</label>
+        {{ form.last_name }}
+    </div>
+
+    <div class="form-field">
+        <label for="{{ form.email.id_for_label }}">Email:</label>
+        {{ form.email }}
+    </div>
+
+    <button type="submit" class="form-submit">Save Changes</button>
 </form>
 {% endblock %}
