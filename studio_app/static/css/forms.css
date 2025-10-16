@@ -33,14 +33,14 @@
 
 .form-field input:focus {
     outline: none;
-    border-color: #3498db;
-    box-shadow: 0 0 5px rgba(52,152,219,0.3);
+    border-color: #222222; /* changed from blue */
+    box-shadow: 0 0 5px rgba(34,34,34,0.3); /* darker shadow */
 }
 
 .form-submit {
     width: 100%;
     padding: 10px;
-    background-color: #3498db;
+    background-color: #222222; /* changed from blue */
     color: white;
     border: none;
     border-radius: 5px;
@@ -49,11 +49,10 @@
 }
 
 .form-submit:hover {
-    background-color: #2980b9;
+    background-color: #000000; /* slightly darker on hover */
 }
 
 .form-card p {
     font-size: 14px;
     margin-top: 10px;
 }
-
