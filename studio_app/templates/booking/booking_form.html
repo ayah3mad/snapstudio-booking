@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Book a Service{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
+
+<form method="POST" class="form-card">
+    {% csrf_token %}
+    <h1>Book a Service</h1>
+
+    <div class="form-field">
+        <label for="{{ form.service.id_for_label }}">Service:</label>
+        {{ form.service }}
+        {% if form.service.errors %}
+            <p style="color:red;">{{ form.service.errors.0 }}</p>
+        {% endif %}
+    </div>
+
+    <div class="form-field">
+        <label for="{{ form.date.id_for_label }}">Date:</label>
+        {{ form.date }}
+        {% if form.date.errors %}
+            <p style="color:red;">{{ form.date.errors.0 }}</p>
+        {% endif %}
+    </div>
+
+    <div class="form-field">
+        <label for="{{ form.time.id_for_label }}">Time:</label>
+        {{ form.time }}
+        {% if form.time.errors %}
+            <p style="color:red;">{{ form.time.errors.0 }}</p>
+        {% endif %}
+    </div>
+
+    <button type="submit" class="form-submit">Book Now</button>
+</form>
+{% endblock %}
+
