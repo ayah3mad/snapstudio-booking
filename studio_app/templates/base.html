@@ -4,44 +4,74 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}SnapStudio{% endblock %}</title>
-    
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-<body>
-    
-    <header>
-        <h1>SnapStudio</h1>
-        <nav>
-            <a href="{% url 'home' %}">Home</a> |
-            <a href="{% url 'services' %}">Services</a> |
-            <a href="{% url 'booking' %}">Booking</a> |
-            <a href="{% url 'profile' %}">Profile</a>
+<body style="margin:0; padding:0; display:flex; flex-direction:column; min-height:100vh;">
 
+<!-- Navbar -->
+<header>
+    <nav style="background-color:#222; color:#fff; display:flex; justify-content:space-between; align-items:center; padding:10px 20px;">
+        <div style="font-size:24px; font-weight:bold;">
+            <a href="{% url 'home' %}" style="color:#fff; text-decoration:none;">Snap<span style="color:#ff4081;">Studio</span></a>
+        </div>
+
+        <div style="display:flex; gap:15px;">
+            {% if user.is_authenticated and user.is_superuser %}
+                <a href="{% url 'home' %}" style="color:#fff; text-decoration:none;">Home</a>
+                <a href="{% url 'services' %}" style="color:#fff; text-decoration:none;">Services</a>
+                <a href="{% url 'user_list' %}" style="color:#fff; text-decoration:none;">Users</a>
+                <a href="{% url 'service_add' %}" style="color:#fff; text-decoration:none;">Add Service</a>
+                <a href="{% url 'admin_booking_list' %}" style="color:#fff; text-decoration:none;">All Bookings</a>
+            {% else %}
+                <a href="{% url 'home' %}" style="color:#fff; text-decoration:none;">Home</a>
+                <a href="{% url 'services' %}" style="color:#fff; text-decoration:none;">Services</a>
+                <a href="{% url 'booking_list' %}" style="color:#fff; text-decoration:none;">Booking</a>
+                <a href="{% url 'profile' %}" style="color:#fff; text-decoration:none;">Profile</a>
+            {% endif %}
+        </div>
+
+        <div>
             {% if user.is_authenticated %}
-            Hello, {{ user.username }} | 
-            <form action="{% url 'logout' %}" method="post" style="display:inline;">
-            {% csrf_token %}
-            <button type="submit">Logout</button>
-            </form>
+                <span style="margin-right:10px;">Hello, {{ user.username }}</span>
+                <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="padding:5px 10px; background-color:#ff4081; color:#fff; border:none; border-radius:4px; cursor:pointer;">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}" style="padding:5px 10px; background-color:#ff4081; color:#fff; text-decoration:none; border-radius:4px; margin-right:5px;">Login</a>
+                <a href="{% url 'signup' %}" style="padding:5px 10px;  color:#fff; text-decoration:none; border-radius:4px;">Sign Up</a>
+            {% endif %}
+        </div>
+    </nav>
+</header>
 
-        {% else %}
-            <a href="{% url 'login' %}">Login</a> | 
-            <a href="{% url 'signup' %}">Sign Up</a>
-        {% endif %}
-        </nav>
-    </header>
+<!-- Main Content -->
+<main style="flex:1;">
+    {% block hero %}{% endblock %}
+    {% block content %}
+    <h1>Placeholder Content</h1>
+    <p>This will be replaced in child templates.</p>
+    {% endblock %}
+</main>
 
-   
-    <main>
-        {% block content %}
-        <h1>Placeholder Content</h1>
-        <p>This will be replaced in child templates.</p>
-        {% endblock %}
-    </main>
+<!-- Footer -->
+<footer style="background-color:#222; color:#fff; display:flex; justify-content:space-between; align-items:center; padding:20px;">
+    <div style="flex:1;">
+        <h2 style="margin:0;">Snap<span style="color:#ff4081;">Studio</span></h2>
+    </div>
 
-    
-    <footer>
-        <p>&copy; 2025 SnapStudio. All rights reserved.</p>
-    </footer>
+    <div style="flex:1; text-align:center;">
+        <a href="#" style="color:#fff; margin:0 5px;"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" style="color:#fff; margin:0 5px;"><i class="fab fa-instagram"></i></a>
+        <a href="#" style="color:#fff; margin:0 5px;"><i class="fab fa-twitter"></i></a>
+    </div>
+
+    <div style="flex:1; text-align:right;">
+        <p style="margin:0; background-color:#444; display:inline-block; padding:5px 10px; border-radius:4px;"><i class="fas fa-phone"></i> +123 456 7890</p>
+        <p style="margin:5px 0 0 0; background-color:#444; display:inline-block; padding:5px 10px; border-radius:4px;"><i class="fas fa-envelope"></i> info@snapstudio.com</p>
+    </div>
+</footer>
+
 </body>
 </html>
