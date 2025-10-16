@@ -22,10 +22,21 @@ class BookingForm(forms.ModelForm):
             'time': forms.TimeInput(attrs={'type': 'time', 'class': 'form-control'}),
         }
 
-class FeedbackForm(forms.Form):
-    model = Feedback
-    rating = forms.IntegerField(min_value=1, max_value=5)
-    comment = forms.CharField(widget=forms.Textarea, required=False)
+class FeedbackForm(forms.ModelForm):
+    rating = forms.IntegerField(
+        min_value=1, max_value=5,
+        widget=forms.HiddenInput()  # hidden input for JS-controlled star rating
+    )
+    
+    class Meta:
+        model = Feedback
+        fields = ['rating', 'comment']
+        widgets = {
+            'comment': forms.Textarea(attrs={
+                'rows': 4,
+                'placeholder': 'Tell us about your experience!'
+            })
+        }
 
 
 class CustomUserCreationForm(UserCreationForm):
