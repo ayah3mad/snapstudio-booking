@@ -1,0 +1,28 @@
+<!-- admin_feedback_list.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Admin Feedback Management</h1>
+
+<div style="display:flex; flex-direction:column; gap:15px;">
+{% for fb in feedbacks %}
+    <div style="border:1px solid #ddd; padding:10px; border-radius:6px;">
+        <p><strong>Service:</strong> {{ fb.booking.service.name }}</p>
+        <p><strong>User:</strong> {{ fb.user.username }}</p>
+        <p>{{ fb.comment }}</p>
+
+        <form method="POST" action="{% url 'feature_feedback' fb.id %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" style="background-color:#ff4081; color:white; border:none; padding:5px 10px; border-radius:4px;">Feature on Homepage</button>
+        </form>
+
+        <form method="POST" action="{% url 'delete_feedback' fb.id %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" style="background-color:#e74c3c; color:white; border:none; padding:5px 10px; border-radius:4px;">Delete</button>
+        </form>
+    </div>
+{% empty %}
+    <p>No feedback submitted yet.</p>
+{% endfor %}
+</div>
+{% endblock %}
