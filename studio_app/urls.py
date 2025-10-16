@@ -1,7 +1,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
-from .views import BookingCreateView, BookingListView, AdminBookingListView, update_booking_status
+from .views import BookingCreateView, BookingListView, AdminBookingListView, update_booking_status, AdminFeedbackListView, FeedbackCreateView
 
 urlpatterns = [
     path('', views.home_view, name='home'),
@@ -30,5 +30,13 @@ urlpatterns = [
     path('booking/create/', BookingCreateView.as_view(), name='create_booking'),
     path('booking/list/', BookingListView.as_view(), name='booking_list'),
     path('booking/admin/', AdminBookingListView.as_view(), name='admin_booking_list'),
-     path('booking/<int:booking_id>/update-status/', update_booking_status, name='update_booking_status'),
+    path('booking/<int:booking_id>/update-status/', update_booking_status, name='update_booking_status'),
+
+    # Feedback
+    path('feedback/admin/', AdminFeedbackListView.as_view(), name='admin_feedback_list'),
+    path('feedback/<int:fb_id>/feature/', views.feature_feedback, name='feature_feedback'),
+    path('feedback/<int:fb_id>/delete/', views.delete_feedback, name='delete_feedback'),
+    path('feedback/create/<int:booking_id>/', FeedbackCreateView.as_view(), name='create_feedback'),
+
+
 ]
