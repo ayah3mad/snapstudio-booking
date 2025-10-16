@@ -10,11 +10,9 @@
 
         <div class="date-time">
             <span class="date">
-                <img src="{% static 'images/calendar.png' %}" alt="Date Icon" style="width:14px; margin-right:4px;">
                 {{ booking.date|date:"M d" }}
             </span>
             <span class="time" style="margin-left:10px;">
-                <img src="{% static 'images/clock.png' %}" alt="Time Icon" style="width:14px; margin-right:4px;">
                 {{ booking.time|time:"H:i" }}
             </span>
         </div>
@@ -42,10 +40,7 @@
         <!-- User view -->
         <div class="service-name">{{ booking.service.name }}</div>
         <div class="date-time">
-             <img src="{% static 'images/calendar.png' %}" alt="Date Icon" style="width:14px; margin-right:4px;">
              <span>{{ booking.date|date:"M d" }}</span>
-
-            <img src="{% static 'images/clock.png' %}" alt="Time Icon" style="width:14px; margin-left:10px; margin-right:4px;">
             <span>{{ booking.time|time:"H:i" }}</span>
         </div>
 
