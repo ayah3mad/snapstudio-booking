@@ -1,8 +1,64 @@
-{% extends 'base.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/card_style.css' %}">
 
-{% block title %}Booking Card{% endblock %}
+<div class="card booking-card">
+    {% if user.is_staff %}
+        <!-- Admin view -->
+        <div class="booking-id">#{{ booking.id }}</div>
+        <div class="booking-user">{{ booking.user.username }}</div>
+        <div class="service-name">{{ booking.service.name }}</div>
 
-{% block content %}
-<h1>Booking Card Placeholder</h1>
+        <div class="date-time">
+            <span class="date">
+                <img src="{% static 'images/calendar.png' %}" alt="Date Icon" style="width:14px; margin-right:4px;">
+                {{ booking.date|date:"M d" }}
+            </span>
+            <span class="time" style="margin-left:10px;">
+                <img src="{% static 'images/clock.png' %}" alt="Time Icon" style="width:14px; margin-right:4px;">
+                {{ booking.time|time:"H:i" }}
+            </span>
+        </div>
 
-{% endblock %}
+        <div class="status">
+            {% if booking.status == 'Scheduled' %}
+                <form method="POST" action="{% url 'update_booking_status' booking.id %}">
+                    {% csrf_token %}
+                    <select name="status" onchange="this.form.submit()">
+                        <option value="Scheduled" {% if booking.status == 'Scheduled' %}selected{% endif %}>Scheduled</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </form>
+            {% else %}
+                <span class="{% if booking.status == 'Completed' %}completed{% elif booking.status == 'Cancelled' %}cancelled{% else %}scheduled{% endif %}">
+                    {{ booking.status }}
+                </span>
+            {% endif %}
+        </div>
+
+        <div class="created-at">{{ booking.created_at|date:"M d, Y H:i" }}</div>
+
+    {% else %}
+        <!-- User view -->
+        <div class="service-name">{{ booking.service.name }}</div>
+        <div class="date-time">
+             <img src="{% static 'images/calendar.png' %}" alt="Date Icon" style="width:14px; margin-right:4px;">
+             <span>{{ booking.date|date:"M d" }}</span>
+
+            <img src="{% static 'images/clock.png' %}" alt="Time Icon" style="width:14px; margin-left:10px; margin-right:4px;">
+            <span>{{ booking.time|time:"H:i" }}</span>
+        </div>
+
+        <div class="status">
+            {% if booking.status == 'Completed' %}
+                <button class="feedback-btn">Give Feedback</button>
+            {% else %}
+                <span class="{% if booking.status == 'Scheduled' %}○ scheduled{% elif booking.status == 'Cancelled' %}cancelled{% endif %}">
+                    {{ booking.status }}
+                </span>
+            {% endif %}
+        </div>
+
+        <div class="created-at">{{ booking.created_at|date:"M d, Y H:i" }}</div>
+    {% endif %}
+</div>
