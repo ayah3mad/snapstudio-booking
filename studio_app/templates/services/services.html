@@ -4,48 +4,121 @@
 {% block title %}Services{% endblock %}
 
 {% block content %}
-<h1 class="page-title">Services</h1>
 
-<div class="services-container">
+<!-- Page Title -->
+<h1 style="text-align:center; margin-top:30px; color:#222;">Services</h1>
+
+<!-- Services Container -->
+<div style="
+    display:flex;
+    flex-wrap:wrap;
+    gap:20px;
+    justify-content:center;
+    margin-top:20px;
+">
+
     {% for service in services %}
-    <div class="service-card">
+    <div style="
+        border:1px solid #ddd;
+        border-radius:8px;
+        background:#fff;
+        box-shadow:0 4px 10px rgba(0,0,0,0.08);
+        width:200px;
+        display:flex;
+        flex-direction:column;
+        gap:8px;
+        padding:8px;
+    ">
         {% if service.image %}
-            <img src="{{ service.image.url }}" alt="{{ service.name }}">
+            <img src="{{ service.image.url }}" alt="{{ service.name }}" style="
+                width:100%;
+                height:130px;
+                object-fit:cover;
+                border-radius:6px;
+            ">
         {% else %}
-            <img src="{% static 'images/service_placeholder.png' %}" alt="{{ service.name }}">
+            <img src="{% static 'images/service_placeholder.png' %}" alt="{{ service.name }}" style="
+                width:100%;
+                height:130px;
+                object-fit:cover;
+                border-radius:6px;
+            ">
         {% endif %}
 
-        <h3>{{ service.name }}</h3>
-         <p class="description">{{ service.description }} - {{ service.duration }}</p>
+        <h3 style="font-size:1rem; color:#222; margin:4px 0; text-align:center;">{{ service.name }}</h3>
+        <p style="font-size:0.85rem; color:#555; text-align:center; min-height:40px; line-height:1.3;">
+            {{ service.description }} - {{ service.duration }}
+        </p>
 
-        <div class="price-duration">
-            <span class="price">{{ service.price }} JD</span>
-            {% if not request.user.is_superuser %}
-            <button class="book-btn">Book Now</button>
-            {% else %}
-            <span class="duration">{{ service.duration }}</span>
+        <div style="
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            margin-top:auto;
+            padding-top:6px;
+            border-top:1px solid #eee;
+        ">
+            <span style="font-weight:600; color:#1f3c88; font-size:0.9rem;">
+                {{ service.price }} JD
+            </span>
+            {% if request.user.is_superuser %}
+            <span style="margin-left:5px; font-size:0.85rem; color:#666;">{{ service.duration }}</span>
             {% endif %}
         </div>
 
         {% if request.user.is_superuser %}
-        <div class="admin-buttons">
-            <a href="{% url 'service_edit' service.id %}" class="edit-btn">Edit</a>
+        <!-- Admin Buttons with Icons -->
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            margin-top:8px;
+            gap:5px;
+        ">
+            <a href="{% url 'service_edit' service.id %}" style="
+                flex:1;
+                text-align:center;
+                padding:5px;
+                background-color:#3498db;
+                color:#fff;
+                border-radius:5px;
+                text-decoration:none;
+                font-size:0.85rem;
+            "><i class="fa-solid fa-pencil"></i></a>
 
-            <form method="POST" 
-                  action="{% url 'service_delete' service.id %}" 
-                  onsubmit="return confirm('Are you sure you want to delete this service?');">
+            <form method="POST" action="{% url 'service_delete' service.id %}" 
+                  onsubmit="return confirm('Are you sure you want to delete this service?');" style="flex:1;">
                 {% csrf_token %}
-                <button type="submit" class="delete-btn">Delete</button>
+                <button type="submit" style="
+                    width:100%;
+                    padding:5px;
+                    background-color:#e74c3c;
+                    color:#fff;
+                    border:none;
+                    border-radius:5px;
+                    font-size:0.85rem;
+                    cursor:pointer;
+                "><i class="fa-solid fa-trash"></i></button>
             </form>
         </div>
         {% endif %}
     </div>
     {% endfor %}
+
 </div>
 
 {% if request.user.is_superuser %}
-<div class="add-service-container">
-    <a href="{% url 'service_add' %}" class="add-service-btn">+ Add Service</a>
+<!-- Add Service Button -->
+<div style="text-align:center; margin-top:20px;">
+    <a href="{% url 'service_add' %}" style="
+        padding:8px 16px;
+        background-color:#27ae60;
+        color:#fff;
+        border-radius:6px;
+        text-decoration:none;
+        font-weight:500;
+        font-size:0.9rem;
+    ">+ Add Service</a>
 </div>
 {% endif %}
+
 {% endblock %}
