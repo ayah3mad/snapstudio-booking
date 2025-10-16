@@ -36,18 +36,22 @@
 
 <!-- Feedback / Testimonials Section -->
 <section style="background-color:#f5f5f5; padding:60px 20px; text-align:center;">
-    <h2>What Our Clients Say</h2>
+    <h2>What Our Clients Say?</h2>
     <div style="max-width:800px; margin:30px auto; display:flex; flex-direction:column; gap:20px;">
+
+        {% for fb in featured_feedbacks %}
         <div style="background-color:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
-            <p>"Amazing service! Booking my session was super easy and the photos turned out perfect!"</p>
-            <strong>- Sarah L.</strong>
+            <p>"{{ fb.comment }}"</p>
+            <strong>- {{ fb.user.username }}</strong><br>
+            <small>Service: {{ fb.booking.service.name }}</small>
         </div>
-        <div style="background-color:#fff; padding:20px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1);">
-            <p>"Highly recommend StudioHat! The team is professional and friendly."</p>
-            <strong>- Ahmed K.</strong>
-        </div>
+        {% empty %}
+        <p>No featured feedback yet.</p>
+        {% endfor %}
+
     </div>
 </section>
+
 
 {% endblock %}
 
